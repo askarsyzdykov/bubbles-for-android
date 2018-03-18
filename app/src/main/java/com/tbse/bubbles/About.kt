@@ -1,11 +1,9 @@
-package com.txusballesteros.bubbles.app
+package com.tbse.bubbles
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import com.tbse.bubbles.app.R
 
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.content_about.*
 
 class About : AppCompatActivity() {
 

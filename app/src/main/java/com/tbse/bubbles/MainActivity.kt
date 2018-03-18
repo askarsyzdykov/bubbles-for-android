@@ -22,7 +22,7 @@
  *
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
  */
-package com.txusballesteros.bubbles.app
+package com.tbse.bubbles
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -35,9 +35,11 @@ import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.widget.Toast
+import com.crashlytics.android.Crashlytics
+import com.tbse.bubbles.app.R.layout.*
 import com.txusballesteros.bubbles.BubbleLayout
 import com.txusballesteros.bubbles.BubblesManager
-import com.txusballesteros.bubbles.app.R.layout.*
+import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -47,6 +49,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Fabric.with(this, Crashlytics())
+
         setContentView(activity_main)
 
         add.setOnClickListener { addNewBubble() }
