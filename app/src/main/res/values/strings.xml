@@ -29,4 +29,8 @@
     <string name="addbubble">Add Bubble</string>
     <string name="icon_made_by">Icon made by Freepik at https://www.flaticon.com/authors/freepik</string>
     <string name="todd_b_smith_enterprises_llc_http_toddbsmith_com">Todd B Smith Enterprises LLC http://toddbsmith.com</string>
+    <string name="vol_bubble">Vol Bubble</string>
+    <string name="this_app_requires_permission_to_draw_over_other_apps">This app requires permission to draw over other apps.</string>
+    <string name="request_permission">Request Permission</string>
+    <string name="add_bubble">Add Bubble</string>
 </resources>

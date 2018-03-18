@@ -22,21 +22,25 @@
  *
  * Contact: Txus Ballesteros <txus.ballesteros@gmail.com>
  */
-package com.tbse.bubbles
+package com.tbse.volumebubble
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import com.crashlytics.android.Crashlytics
-import com.tbse.bubbles.app.R.layout.*
+import com.crashlytics.android.answers.Answers
+import com.tbse.volumebubble.R.layout.*
 import com.txusballesteros.bubbles.BubbleLayout
 import com.txusballesteros.bubbles.BubblesManager
 import io.fabric.sdk.android.Fabric
@@ -51,22 +55,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         Fabric.with(this, Crashlytics())
+        Fabric.with(this, Answers())
 
         setContentView(activity_main)
 
-        add.setOnClickListener { addNewBubble() }
-        about.setOnClickListener { startActivity(Intent(this, About::class.java)) }
+    }
 
+    override fun onResume() {
+        super.onResume()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
-                val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-                myIntent.data = Uri.parse("package:" + packageName)
-                startActivityForResult(myIntent, 101)
+                noPermissions()
             } else {
-                initializeBubblesManager()
+                hasPermissions()
             }
         } else {
-            initializeBubblesManager()
+            hasPermissions()
+        }
+    }
+
+    private fun hasPermissions() {
+        need_perms.visibility = View.GONE
+        about.visibility = View.VISIBLE
+        add.text = getString(R.string.add_bubble)
+        add.visibility = View.VISIBLE
+        add.setOnClickListener { addNewBubble() }
+        about.setOnClickListener { startActivity(Intent(this, About::class.java)) }
+        initializeBubblesManager()
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun noPermissions() {
+        need_perms.visibility = View.VISIBLE
+        about.visibility = View.GONE
+        add.text = getString(R.string.request_permission)
+        add.setOnClickListener {
+            val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            myIntent.data = Uri.parse("package:" + packageName)
+            startActivityForResult(myIntent, 101)
         }
     }
 
@@ -74,10 +100,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101 && Settings.canDrawOverlays(this)) {
-            initializeBubblesManager()
+            hasPermissions()
         } else {
-            Toast.makeText(this@MainActivity, "Requires Draw Over Apps permission", Toast.LENGTH_LONG).show()
-            finish()
+            noPermissions()
         }
     }
 

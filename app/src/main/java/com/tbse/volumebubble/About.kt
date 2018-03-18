@@ -1,8 +1,7 @@
-package com.tbse.bubbles
+package com.tbse.volumebubble
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.tbse.bubbles.app.R
 
 
 class About : AppCompatActivity() {

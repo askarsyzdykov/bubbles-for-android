@@ -8,7 +8,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.txusballesteros.bubbles.app"
+        applicationId "com.tbse.volumebubble"
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
